@@ -7,9 +7,10 @@ Backend for a video rental application.
 ## How to run the app?
 
 1. In the root of the project create a file named **.env** set the following environment variables in the file.
-   - VIDLY_PASSWORD
-   - VIDLY_DB_CONNECTION_STRING
-   - VIDLY_PORT
+   - **VIDLY_PASSWORD** - A password/secret for generating JWT.
+   - **VIDLY_DB_CONNECTION_STRING** - Connection string to connect to a mongodb database.
+   - **VIDLY_PORT** - Port on which the application is to run.
+   - **DEBUG** - This parameter defines the level of debugging required. Set it to " _vidly:\*_ " to log all the messages on the terimnal.
 1. Run the following commands to get the app up and running.
 
 ```shell

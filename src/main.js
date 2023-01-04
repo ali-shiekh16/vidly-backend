@@ -2,6 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import genresRouter from './routes/genres.js';
 import config from 'config';
+import { startupDebug } from './debugger.js';
 
 const app = express();
 
@@ -18,4 +19,4 @@ app.get('/', (req, res) => {
 });
 
 const port = config.get('port');
-app.listen(port, () => console.log(`Listening on port ${port}`));
+app.listen(port, () => startupDebug(`Listening on port ${port}`));

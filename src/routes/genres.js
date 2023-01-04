@@ -1,4 +1,6 @@
 import { Router } from 'express';
+import { validateId } from '../middlewares/validation.js';
+import { validate } from './models/genre.js';
 
 let genres = [
   { id: 1, name: 'thrill' },
@@ -13,7 +15,7 @@ router.get('/', (req, res) => {
   res.send(genres);
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', validateId, (req, res) => {
   const genre = genres.find(genre => genre.id === +req.params.id);
   if (!genre)
     return res.status(404).send('The genre with the given ID was not found.');
@@ -22,6 +24,9 @@ router.get('/:id', (req, res) => {
 });
 
 router.post('/', (req, res) => {
+  const { error } = validate(req.body);
+  if (error) return res.status(400).send(error.message);
+
   const newGenre = {
     id: genres[genres.length - 1].id + 1,
     name: req.body.name,
@@ -32,7 +37,10 @@ router.post('/', (req, res) => {
   res.status(201).send(newGenre);
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', validateId, (req, res) => {
+  const { error } = validate(req.body);
+  if (error) return res.status(400).send(error.message);
+
   const genreID = +req.params.id;
   const genre = genres.find(genre => genre.id === genreID);
   if (!genre)
@@ -42,7 +50,7 @@ router.put('/:id', (req, res) => {
   res.send(genres[genreID - 1]);
 });
 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', validateId, (req, res) => {
   const genreID = +req.params.id;
   const genre = genres.find(genre => genre.id === genreID);
   if (!genre)
