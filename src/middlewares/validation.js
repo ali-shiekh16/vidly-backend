@@ -1,6 +1,7 @@
+import mongoose from 'mongoose';
+
 function validateId(req, res, next) {
-  const id = +req.params.id;
-  if (!(Number.isInteger(id) || id > 0))
+  if (!mongoose.isValidObjectId(req.params.id))
     return res.status(400).send('Invalid ID.');
   next();
 }

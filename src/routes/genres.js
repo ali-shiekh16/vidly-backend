@@ -1,63 +1,56 @@
 import { Router } from 'express';
 import { validateId } from '../middlewares/validation.js';
-import { validate } from './models/genre.js';
-
-let genres = [
-  { id: 1, name: 'thrill' },
-  { id: 2, name: 'romance' },
-  { id: 3, name: 'action' },
-  { id: 4, name: 'horror' },
-];
+import Genre, { validate } from './models/genre.js';
 
 const router = new Router();
 
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
+  const genres = await Genre.find().sort({ name: 1 });
   res.send(genres);
 });
 
-router.get('/:id', validateId, (req, res) => {
-  const genre = genres.find(genre => genre.id === +req.params.id);
+router.get('/:id', validateId, async (req, res) => {
+  const genre = await Genre.findById(req.params.id);
   if (!genre)
     return res.status(404).send('The genre with the given ID was not found.');
 
   res.send(genre);
 });
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.message);
 
-  const newGenre = {
-    id: genres[genres.length - 1].id + 1,
-    name: req.body.name,
-  };
+  const genre = new Genre(req.body);
+  await genre.save();
 
-  genres.push(newGenre);
-
-  res.status(201).send(newGenre);
+  res.status(201).send(genre);
 });
 
-router.put('/:id', validateId, (req, res) => {
+router.put('/:id', validateId, async (req, res) => {
   const { error } = validate(req.body);
   if (error) return res.status(400).send(error.message);
 
-  const genreID = +req.params.id;
-  const genre = genres.find(genre => genre.id === genreID);
+  const genre = await Genre.findByIdAndUpdate(
+    req.params.id,
+    {
+      $set: { ...req.body },
+    },
+    { new: true }
+  );
+
   if (!genre)
     return res.status(404).send('The genre with the given ID was not found.');
 
-  genres[genreID - 1].name = req.body.name;
-  res.send(genres[genreID - 1]);
+  res.send(genre);
 });
 
-router.delete('/:id', validateId, (req, res) => {
-  const genreID = +req.params.id;
-  const genre = genres.find(genre => genre.id === genreID);
+router.delete('/:id', validateId, async (req, res) => {
+  const genre = await Genre.findByIdAndRemove(req.params.id);
   if (!genre)
     return res.status(404).send('The genre with the given ID was not found.');
 
-  genres = genres.filter(genre => genre.id !== genreID);
-  res.send(genres);
+  res.send(genre);
 });
 
 export default router;

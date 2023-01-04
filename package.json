@@ -17,6 +17,7 @@
     "express": "^4.18.2",
     "helmet": "^6.0.1",
     "joi": "^17.7.0",
+    "mongoose": "^6.8.2",
     "nconf": "^0.12.0"
   },
   "devDependencies": {
