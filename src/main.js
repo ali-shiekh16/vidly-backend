@@ -21,6 +21,7 @@ app.get('/', (req, res) => {
 
 const port = config.get('port');
 app.listen(port, () => startupDebug(`Listening on port ${port}`));
+
 mongoose
   .set('strictQuery', true)
   .connect(config.get('db.connectionString'), {

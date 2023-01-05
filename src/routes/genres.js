@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { validateId } from '../middlewares/validation.js';
-import Genre, { validate } from './models/genre.js';
+import Genre, { validate } from '../models/genre.js';
 
 const router = new Router();
 
