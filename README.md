@@ -44,8 +44,13 @@ Thats all.
 **Properites**
 
 - Title
--
+- numberInStock
+- dailyRentalRate
+- genre (mongodb objectID)
 
-| URL              | Method | Response               |
-| ---------------- | ------ | ---------------------- |
-| vidly/api/movies | GET    | Returns all the movies |
+| URL                  | Method | Response                    |
+| -------------------- | ------ | --------------------------- |
+| vidly/api/movies     | GET    | Returns all the movies.     |
+| vidly/api/movies/:id | GET    | Returns single movies.      |
+| vidly/api/movies/:id | PUT    | Update the specified movie. |
+| vidly/api/movies/:id | DELETE | Delete the specified movie. |

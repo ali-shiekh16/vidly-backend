@@ -31,5 +31,6 @@ mongoose
   })
   .then(() => dbDebug('Connection established successfully!'))
   .catch(err => {
-    throw new Error(err.reason.error.message);
+    // throw new Error(err.reason.error.message);
+    throw new Error(err);
   });
