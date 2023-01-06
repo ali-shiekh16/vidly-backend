@@ -1,9 +1,10 @@
 import express from 'express';
 import helmet from 'helmet';
-import genresRouter from './routes/genres.js';
 import config from 'config';
 import { dbDebug, startupDebug } from './debugger.js';
 import mongoose from 'mongoose';
+import genresRouter from './routes/genres.js';
+import moviesRouter from './routes/movies.js';
 
 const app = express();
 
@@ -14,6 +15,7 @@ app.use(helmet());
 // * ROUTES
 const baseURL = '/api';
 app.use(`${baseURL}/genres`, genresRouter);
+app.use(`${baseURL}/movies`, moviesRouter);
 
 app.get('/', (req, res) => {
   res.send('Welcome to Vidly!');
